@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Muc tieu va ke hoach daily ca nhan." />
+    <title>Nhịp - Mục tiêu và daily plan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Lora:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="paper-noise" aria-hidden="true"></div>
+    <main class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#app" aria-label="Nhịp, trang chủ">
+          <svg viewBox="0 0 42 42" aria-hidden="true"><path d="M6 26c5 0 7-13 13-13 5.5 0 6.5 14 17 14" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/><circle cx="6" cy="26" r="2.5" fill="currentColor"/><circle cx="36" cy="27" r="2.5" fill="currentColor"/></svg>
+          <span>nhịp</span>
+        </a>
+        <div class="actions"><button class="quiet-button" type="button" id="openDailyDialog">+ Daily plan</button><button class="primary-button" type="button" id="openGoalDialog">+ Mục tiêu</button></div>
+      </header>
+
+      <section class="hero" id="app">
+        <p class="date-line" id="dateLine">Hôm nay</p>
+        <h1>Một nơi cho đích đến.<br />Một nơi cho việc lặp lại.</h1>
+        <p class="hero-copy">Goal cho biết điều bạn muốn chạm tới. Daily plan giúp bạn không phải nghĩ lại mỗi ngày.</p>
+      </section>
+
+      <nav class="tabs" aria-label="Nội dung chính">
+        <button class="tab active" type="button" data-tab="goals"><span>01</span>Mục tiêu</button>
+        <button class="tab" type="button" data-tab="daily"><span>02</span>Daily</button>
+        <button class="tab" type="button" data-tab="review"><span>03</span>Nhìn lại</button>
+        <button class="tab" type="button" data-tab="reports"><span>04</span>Hoàn tất</button>
+      </nav>
+
+      <section class="tab-panel active" id="goalsTab" aria-labelledby="goalsHeading">
+        <div class="section-heading"><div><p class="section-label">Mục tiêu và hạn</p><h2 id="goalsHeading">Danh sách đích đến</h2></div><p>Tiến độ ở đây được cập nhật theo số thực tế của bạn, không tự động suy diễn từ daily plan.</p></div>
+        <div class="goal-table" id="goalTable" hidden>
+          <div class="goal-head" aria-hidden="true"><span>Mục tiêu</span><span>Hạn chót</span><span>Tiến độ</span><span></span></div>
+          <div id="goalsList" role="list" aria-live="polite"></div>
+        </div>
+        <div class="empty-state" id="emptyGoals"><div aria-hidden="true" class="empty-mark">⌁</div><h3>Chưa có mục tiêu nào</h3><p>Tạo mục tiêu bằng một con số, đơn vị và ngày chốt rõ ràng.</p><button class="text-button" type="button" id="emptyGoalButton">Tạo mục tiêu đầu tiên</button></div>
+      </section>
+
+      <section class="tab-panel" id="dailyTab" aria-labelledby="dailyHeading">
+        <div class="section-heading"><div><p class="section-label">Daily plan</p><h2 id="dailyHeading">Kế hoạch lặp lại</h2></div><p>Đánh dấu việc đã làm hôm nay. Một plan tự xuất hiện lại theo lịch đã chọn.</p></div>
+        <div class="today-strip" id="todaySummary"><span class="today-orb" aria-hidden="true"></span><p>Chưa có plan nào cho hôm nay.</p><small>Tạo một template, rồi dùng lại mỗi ngày.</small></div>
+        <section class="daily-block" aria-labelledby="todayPlansHeading"><div class="subheading"><h3 id="todayPlansHeading">Hôm nay</h3><span id="todayPlanCount">0 việc</span></div><div class="today-plans" id="todayPlans"></div><div class="empty-inline" id="emptyTodayPlans">Không có daily plan nào cần làm hôm nay.</div></section>
+        <section class="daily-block library-block" aria-labelledby="libraryHeading"><div class="subheading"><div><h3 id="libraryHeading">Thư viện plan</h3><p>Nhân bản một plan để có biến thể mới mà không nhập lại.</p></div><div class="library-actions"><button class="text-button reset-rhythm-button" type="button" id="startTomorrowButton">Bắt đầu từ ngày mai</button><button class="text-button" type="button" id="openDailyDialogInline">Tạo daily plan</button></div></div><div class="plan-library" id="planLibrary"></div><div class="empty-inline" id="emptyPlans">Chưa có template nào. Bắt đầu bằng một việc nhỏ có thể lặp lại.</div></section>
+      </section>
+
+      <section class="tab-panel" id="reviewTab" aria-labelledby="reviewHeading">
+        <div class="section-heading"><div><p class="section-label">Nhịp tuần và tháng</p><h2 id="reviewHeading">Nhìn lại để điều chỉnh</h2></div><p>Daily là bằng chứng. Chỉ khi chốt review tuần, số thực tế mới được cộng vào goal chung.</p></div>
+        <div class="review-toolbar"><div class="period-switch" aria-label="Chọn kỳ xem"><button class="period-button active" type="button" data-dashboard-mode="week">Tuần</button><button class="period-button" type="button" data-dashboard-mode="month">Tháng</button></div><div class="period-stepper"><button class="period-step" type="button" id="previousPeriod" aria-label="Kỳ trước">←</button><strong id="dashboardPeriodLabel">Tuần này</strong><button class="period-step" type="button" id="nextPeriod" aria-label="Kỳ sau">→</button></div></div>
+        <div class="review-overview" id="reviewOverview"></div>
+        <section class="review-signal" id="reviewSignal" aria-live="polite"></section>
+        <section class="review-chart-card" aria-labelledby="reviewChartHeading"><div class="subheading"><div><h3 id="reviewChartHeading">Nhịp thực hiện</h3><p id="reviewChartCaption">Số lượt hoàn thành trên số lượt cần làm.</p></div><span id="reviewChartTotal">0 / 0</span></div><div class="review-bars" id="reviewBars"></div></section>
+        <section class="review-plans-block" aria-labelledby="reviewPlansHeading"><div class="subheading"><div><h3 id="reviewPlansHeading">Từng template</h3><p>Cường độ chỉ đổi khi bạn chủ động chốt review.</p></div></div><div class="review-plan-list" id="reviewPlans"></div><div class="empty-inline" id="emptyReviewPlans">Chưa có lượt nào để đánh giá trong kỳ này.</div></section>
+        <div class="weekly-review-footer"><div id="weeklyReviewStatus"></div><button class="primary-button" type="button" id="openWeeklyReview">Chốt review tuần</button></div>
+      </section>
+
+      <section class="tab-panel" id="reportsTab" aria-labelledby="reportsHeading">
+        <div class="section-heading"><div><p class="section-label">Dấu mốc</p><h2 id="reportsHeading">Mục tiêu đã hoàn tất</h2></div><p>Goal được lưu thành báo cáo khi bạn cập nhật tiến độ đạt 100%.</p></div>
+        <div class="reports-list" id="reportsList"></div><div class="empty-state compact" id="emptyReports"><p>Báo cáo hoàn tất sẽ xuất hiện tại đây.</p></div>
+      </section>
+    </main>
+
+    <dialog class="dialog" id="goalDialog"><form id="goalForm" method="dialog"><div class="dialog-title"><div><p class="section-label" id="goalDialogLabel">Mục tiêu mới</p><h2 id="goalDialogTitle">Đặt một đích có thể đo</h2></div><button class="close-button" type="button" data-close-dialog="goalDialog" aria-label="Đóng">×</button></div><div class="form-grid"><label class="field wide">Tên mục tiêu<input id="goalTitle" required maxlength="80" placeholder="Ví dụ: Quỹ dự phòng 6 tháng" /></label><label class="field">Lĩnh vực<select id="goalCategory"><option value="sport">Thể thao</option><option value="learning">Sách & học tập</option><option value="mindset">Mindset</option><option value="work">Công việc</option><option value="money">Tiết kiệm</option><option value="health">Sức khỏe</option><option value="other">Khác</option></select></label><label class="field">Hạn chót<input id="goalDeadline" type="date" required /></label><label class="field">Tiến độ hiện tại<input id="goalCurrent" type="number" min="0" step="0.1" value="0" required /></label><label class="field">Con số đích<input id="goalTarget" type="number" min="0.1" step="0.1" required placeholder="24" /></label><label class="field">Đơn vị<input id="goalUnit" required maxlength="18" placeholder="cuốn, km, triệu..." /></label><label class="field wide" id="monthlyTargetField" hidden>Mục tiêu tiết kiệm mỗi tháng<input id="goalMonthlyTarget" type="number" min="0" step="0.1" placeholder="Ví dụ: 10" /><span class="field-help">Nhập số thực tế vào cuối mỗi tháng bằng nút “Ghi sổ tháng”.</span></label><label class="field wide">Mô tả<input id="goalDescription" required maxlength="100" placeholder="Ví dụ: 24 cuốn sách trong năm" /></label></div><p class="form-note">Daily plan có thể liên kết với mục tiêu để nhắc bạn về ngữ cảnh, nhưng sẽ không tự thay đổi tiến độ này.</p><div class="dialog-footer"><button class="danger-button" type="button" id="deleteGoalButton" hidden>Xóa mục tiêu</button><span></span><button class="secondary-button" type="button" data-close-dialog="goalDialog">Hủy</button><button class="primary-button" type="submit">Lưu mục tiêu</button></div></form></dialog>
+
+    <dialog class="dialog" id="dailyDialog"><form id="dailyForm" method="dialog"><div class="dialog-title"><div><p class="section-label" id="dailyDialogLabel">Daily plan mới</p><h2 id="dailyDialogTitle">Việc nhỏ, dùng lại nhiều lần</h2></div><button class="close-button" type="button" data-close-dialog="dailyDialog" aria-label="Đóng">×</button></div><div class="form-grid"><label class="field wide">Tên plan<input id="dailyTitle" required maxlength="80" placeholder="Ví dụ: Đọc trước khi ngủ" /></label><label class="field">Lĩnh vực<select id="dailyCategory"><option value="sport">Thể thao</option><option value="learning">Sách & học tập</option><option value="mindset">Mindset</option><option value="work">Công việc</option><option value="money">Tiết kiệm</option><option value="health">Sức khỏe</option><option value="other">Khác</option></select></label><label class="field">Lặp lại<select id="dailyCadence"><option value="daily">Mỗi ngày</option><option value="weekdays">Thứ 2 - Thứ 6</option><option value="weekly">Mỗi tuần</option></select></label><label class="field">Cường độ<select id="dailyDifficulty"><option value="base">Nền tảng</option><option value="stretch">Nâng cao</option><option value="challenge">Thử thách</option></select></label><label class="field">Khi bỏ lỡ<select id="dailyMissRule"><option value="none">Chỉ ghi nhận</option><option value="catchup">Bù 1 lượt sau review</option><option value="review">Bắt buộc xem lại</option></select></label><label class="field wide">Liên kết mục tiêu <span class="optional">(không bắt buộc)</span><select id="dailyGoal"></select></label><label class="field wide">Lời nhắc <span class="optional">(không bắt buộc)</span><input id="dailyPrompt" maxlength="100" placeholder="Ví dụ: Đặt sách trên gối trước khi đi làm" /></label></div><p class="form-note">Kế hoạch này chỉ là nhịp làm việc. Đánh dấu hoàn thành sẽ lưu nhật ký hôm nay, không cộng hay trừ goal. Review tuần là nơi bạn tự xác nhận số thực tế cho goal.</p><div class="dialog-footer"><button class="danger-button" type="button" id="deleteDailyButton" hidden>Xóa plan</button><span></span><button class="secondary-button" type="button" data-close-dialog="dailyDialog">Hủy</button><button class="primary-button" type="submit">Lưu daily plan</button></div></form></dialog>
+
+    <dialog class="dialog" id="monthlyDialog"><form id="monthlyForm" method="dialog"><div class="dialog-title"><div><p class="section-label">Ghi sổ tài chính</p><h2>Chốt khoản tiết kiệm tháng</h2></div><button class="close-button" type="button" data-close-dialog="monthlyDialog" aria-label="Đóng">×</button></div><div class="form-grid"><label class="field wide">Mục tiêu tiết kiệm<select id="monthlyGoal" required></select></label><label class="field">Tháng ghi sổ<input id="monthlyPeriod" type="month" required /></label><label class="field">Số đã tiết kiệm<input id="monthlyAmount" type="number" min="0" step="0.1" required /></label><label class="field wide">Đơn vị<span class="unit-preview" id="monthlyUnit">Chọn mục tiêu trước</span></label><label class="field wide">Ghi chú <span class="optional">(không bắt buộc)</span><input id="monthlyNote" maxlength="100" placeholder="Ví dụ: Đã chuyển vào quỹ dự phòng" /></label></div><p class="form-note" id="monthlyNoteText">Số tiền này sẽ cộng trực tiếp vào tiến độ goal. Ghi lại cùng một tháng sẽ cập nhật số cũ, không cộng hai lần.</p><div class="dialog-footer"><span></span><button class="secondary-button" type="button" data-close-dialog="monthlyDialog">Hủy</button><button class="primary-button" type="submit">Lưu khoản tháng</button></div></form></dialog>
+
+    <dialog class="dialog review-dialog" id="weeklyReviewDialog"><form id="weeklyReviewForm" method="dialog"><div class="dialog-title"><div><p class="section-label">Chốt review tuần</p><h2 id="weeklyReviewTitle">Nhìn lại nhịp đã qua</h2></div><button class="close-button" type="button" data-close-dialog="weeklyReviewDialog" aria-label="Đóng">×</button></div><div class="review-dialog-summary" id="weeklyReviewSummary"></div><div class="review-policy-note" id="weeklyReviewPolicy"></div><section class="review-goals"><div><p class="section-label">Cập nhật goal từ thực tế</p><p class="review-goals-copy">Nhập phần tiến độ tăng thêm trong tuần. Goal tiết kiệm tiếp tục được chốt ở sổ tháng để không cộng trùng.</p></div><div id="weeklyReviewGoals"></div></section><div class="form-grid review-action-grid"><label class="field">Quyết định tuần tới<select id="reviewAction"><option value="keep">Giữ nhịp hiện tại</option><option value="raise">Nâng cường độ một plan</option><option value="lower">Giảm tải, làm nhỏ hơn</option><option value="catchup">Thêm 1 lượt bù</option></select></label><label class="field">Áp dụng cho plan<select id="reviewActionPlan"></select></label><label class="field wide">Ghi chú review <span class="optional">(không bắt buộc)</span><input id="weeklyReviewNote" maxlength="140" placeholder="Điều gì hiệu quả, điều gì cần đổi?" /></label></div><p class="form-note">Review được chốt một lần để giữ lịch sử rõ ràng. Bạn vẫn có thể sửa goal bằng nút ••• nếu cần điều chỉnh về sau.</p><div class="dialog-footer"><span></span><button class="secondary-button" type="button" data-close-dialog="weeklyReviewDialog">Hủy</button><button class="primary-button" type="submit">Chốt tuần</button></div></form></dialog>
+
+    <dialog class="dialog report-dialog" id="reportDialog"><div class="report-content"><div class="dialog-title"><div><p class="section-label">Báo cáo đã hoàn tất</p><h2 id="reportTitle">Mục tiêu</h2></div><button class="close-button" type="button" data-close-dialog="reportDialog" aria-label="Đóng">×</button></div><div class="report-metrics"><div><span>Đã đạt</span><strong id="reportResult">0</strong></div><div><span>Lần cập nhật</span><strong id="reportUpdates">0</strong></div><div><span>Hoàn tất</span><strong id="reportDate">-</strong></div></div><div class="chart-box"><div><p class="section-label">Tiến độ đã ghi</p><p id="chartDescription">Theo các lần cập nhật tiến độ</p></div><svg id="reportChart" viewBox="0 0 560 210" role="img" aria-labelledby="reportChartTitle"><title id="reportChartTitle">Biểu đồ tiến độ</title></svg><div class="chart-dates"><span id="chartStart">Bắt đầu</span><span id="chartEnd">Hoàn tất</span></div></div><div class="dialog-footer"><button class="danger-button" type="button" id="deleteReportButton">Xóa báo cáo</button><span></span><button class="primary-button" type="button" data-close-dialog="reportDialog">Đóng báo cáo</button></div></div></dialog>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="./app.js"></script>
+  </body>
+</html>
